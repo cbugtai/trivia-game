@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const newPlayerButton = document.getElementById("new-player");
 
     // Initialize the game
-    // checkUsername(); Uncomment once completed
+    //checkUsername(); Uncomment once completed
     fetchQuestions();
     displayScores();
 
@@ -106,3 +106,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
 });
+
+/**
+ * Creates a cookie.
+ * @param {string} name - name of the cookie.
+ * @param {number} value - value of the cookie.
+ * @param {number} days - number of days until cookie will expire.
+ */
+function setCookie(name, value, days){
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// Retrieves the value of a cookie given its name 
+function getCookie(name) {
+    return document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(`${name}=`))
+        ?.split("=")[1];
+}
