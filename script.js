@@ -139,3 +139,9 @@ function checkUsername(){
         newPlayerButton.classList.remove("hidden");
     }
 }
+
+function calculateScore(){
+    const allCorrectSelections = document.querySelectorAll('[data-correct]');
+    const score = allCorrectSelections.length
+    return score
+}
