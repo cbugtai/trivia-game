@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("trivia-form");
     const questionContainer = document.getElementById("question-container");
     const newPlayerButton = document.getElementById("new-player");
+    
 
     // Initialize the game
     checkUsername();
@@ -117,66 +118,76 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchQuestions();
     }
 
-});
-
-/**
- * Creates a cookie.
- * @param {string} name - name of the cookie.
- * @param {number} value - value of the cookie.
- * @param {number} days - number of days until cookie will expire.
- */
-function setCookie(name, value, days){
-    const d = new Date();
-    d.setTime(d.getTime() + (days*24*60*60*1000));
-    let expires = "expires="+ d.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
-}
-
-// Retrieves the value of a cookie given its name 
-function getCookie(name) {
-    return document.cookie
-        .split("; ")
-        .find((row) => row.startsWith(`${name}=`))
-        ?.split("=")[1];
-}
-
-
-function checkUsername(){
-    if (typeof getCookie("username") != "undefined"){
-        newPlayerButton.classList.remove("hidden");
-    } else {
-        newPlayerButton.classList.add("hidden")
+    /**
+     * Creates a cookie.
+     * @param {string} name - name of the cookie.
+     * @param {number} value - value of the cookie.
+     * @param {number} days - number of days until cookie will expire.
+     */
+    function setCookie(name, value, days){
+        const d = new Date();
+        d.setTime(d.getTime() + (days*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
     }
-}
 
-function calculateScore(){
-    const allCorrectSelections = document.querySelectorAll('[data-correct]');
-    const score = allCorrectSelections.length
-    return score
-}
+    // Retrieves the value of a cookie given its name 
+    function getCookie(name) {
+        return document.cookie
+            .split("; ")
+            .find((row) => row.startsWith(`${name}=`))
+            ?.split("=")[1];
+    }
 
-function saveScore(name, score){
-    localStorage.setItem(name, score);
-}
 
-function displayScores(){
-    const tableBody = document.getElementById("score-table").getElementsByTagName("tbody");
+    function checkUsername(){
+        if (typeof getCookie("username") != "undefined"){
+            newPlayerButton.classList.remove("hidden");
+        } else {
+            newPlayerButton.classList.add("hidden")
+        }
+    }
+
+    function calculateScore(){
+        const allCorrectSelections = document.querySelectorAll("input[type = radio]:checked[data-correct='true']");
+        const score = allCorrectSelections.length
+        console.log(score)
+        return score
+    }
+
+    function saveScore(name, score){
+        console.log(name, score)
+        localStorage.setItem(name, score);
+    }
+
     
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const value = localStorage.getItem(key)
 
-        const row = tableBody.insertRow();
-        const nameCell = row.insertCell(0);
-        const scoreCell = row.insertCell(1);
+    function displayScores(){
+        console.log(localStorage)
+        const tableBody = document.getElementById("score-table").getElementsByTagName("tbody")[0];
+        while (tableBody.hasChildNodes()) {
+            tableBody.removeChild(tableBody.firstChild);
+          }
 
-        nameCell = key;
-        scoreCell = value;
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            console.log(key)
+            let value = localStorage.getItem(key)
+            console.log(value)
 
+            let row = tableBody.insertRow()
+            let nameCell = row.insertCell(0);
+            let scoreCell = row.insertCell(1);
+
+            nameCell.appendChild(document.createTextNode(key));
+            scoreCell.appendChild(document.createTextNode(value));
+
+        }
     }
-}
 
-function newPlayer(){
-    setCookie("username", "", -100);
-    checkUsername();
-}
+    function newPlayer(){
+        setCookie("username", "", -100);
+        checkUsername();
+    }
+
+});
