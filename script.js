@@ -145,3 +145,24 @@ function calculateScore(){
     const score = allCorrectSelections.length
     return score
 }
+
+function saveScore(name, score){
+    localStorage.setItem(name, score);
+}
+
+function displayScores(){
+    const tableBody = document.getElementById("score-table").getElementsByTagName("tbody");
+    
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key)
+
+        const row = tableBody.insertRow();
+        const nameCell = row.insertCell(0);
+        const scoreCell = row.insertCell(1);
+
+        nameCell = key;
+        scoreCell = value;
+
+    }
+}
