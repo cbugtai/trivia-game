@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const newPlayerButton = document.getElementById("new-player");
 
     // Initialize the game
-    //checkUsername(); Uncomment once completed
+    checkUsername();
     fetchQuestions();
     displayScores();
 
@@ -102,9 +102,11 @@ document.addEventListener("DOMContentLoaded", function () {
      */
     function handleFormSubmit(event) {
         event.preventDefault();
+
+
         //... form submission logic including setting cookies and calculating score
     }
-    
+
 });
 
 /**
@@ -126,4 +128,11 @@ function getCookie(name) {
         .split("; ")
         .find((row) => row.startsWith(`${name}=`))
         ?.split("=")[1];
+}
+
+
+function checkUsername(){
+    if (typeof getCookie("username") != "undefined"){
+        newPlayerButton.classList.remove("hidden");
+    }
 }
