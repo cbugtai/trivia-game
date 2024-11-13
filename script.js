@@ -103,11 +103,18 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleFormSubmit(event) {
         const username = document.getElementById("username").value;
         event.preventDefault();
+        
         if (username != getCookie("username")){
             setCookie("username", username, 7);
         }
+        
+        const score = calculateScore();
+        saveScore(username, score);
 
-        //... form submission logic including setting cookies and calculating score
+        checkUsername();
+        displayScores();
+
+        fetchQuestions();
     }
 
 });
@@ -137,6 +144,8 @@ function getCookie(name) {
 function checkUsername(){
     if (typeof getCookie("username") != "undefined"){
         newPlayerButton.classList.remove("hidden");
+    } else {
+        newPlayerButton.classList.add("hidden")
     }
 }
 
@@ -165,4 +174,9 @@ function displayScores(){
         scoreCell = value;
 
     }
+}
+
+function newPlayer(){
+    setCookie("username", "", -100);
+    checkUsername();
 }
