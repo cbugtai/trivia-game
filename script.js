@@ -101,8 +101,11 @@ document.addEventListener("DOMContentLoaded", function () {
      * @param {Event} event - The submit event.
      */
     function handleFormSubmit(event) {
+        const username = document.getElementById("username").value;
         event.preventDefault();
-
+        if (username != getCookie("username")){
+            setCookie("username", username, 7);
+        }
 
         //... form submission logic including setting cookies and calculating score
     }
